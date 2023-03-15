@@ -48,7 +48,7 @@ const ConsultarLider = () => {
             <button>Eliminar</button>
           </div>
           <h2>Seguidores del lider</h2>
-          <button>Registrar seguidor</button>
+          <button onClick={()=>navigate('seguidor/crear')}>Registrar seguidor</button>
           { !lider.seguidores || lider.seguidores.length === 0 &&
             <span>El lider no tiene ningun seguidor</span>
           }

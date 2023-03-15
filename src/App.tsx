@@ -6,6 +6,7 @@ import { authController } from './controllers/auth'
 import ConsultarLider from './pages/ConsultarLider'
 import ConsultarLideres from './pages/ConsultarLideres'
 import CreateLider from './pages/CreateLider'
+import CreateSeguidor from './pages/CreateSeguidor'
 import Login from './pages/Login'
 import './tw.css'
 
@@ -32,6 +33,7 @@ const AuthRoutes = () => {
       <Route path='/lideres' element={ <AuthRoute requiredAuth element={<ConsultarLideres/>}/>}/>
       <Route path='/lideres/crear' element={ <AuthRoute requiredAuth element={<CreateLider/>}/>}/>
       <Route path='/lideres/:id' element={ <AuthRoute requiredAuth element={<ConsultarLider/>}/>}/>
+      <Route path='/lideres/:id/seguidor/crear' element={ <AuthRoute requiredAuth element={<CreateSeguidor/>}/>}/>
     </Routes>
   )
 
