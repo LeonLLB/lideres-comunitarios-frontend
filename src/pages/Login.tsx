@@ -41,8 +41,8 @@ const Login = () => {
             <form onSubmit={onSubmit} className="flex flex-col items-center space-y-2">
                 <h1>Sistema lideres</h1>
                 <span className="font-light text-lg">Iniciar sesión</span>
-                <FormInput rest={{required:true}} name="cedula" label="Cedula" type="number" onChange={onChange}/>
-                <FormInput rest={{required:true}} name="password" label="Contraseña" type="password" onChange={onChange}/>
+                <FormInput value={form.cedula} rest={{required:true}} name="cedula" label="Cedula" type="number" onChange={onChange}/>
+                <FormInput value={form.password} rest={{required:true}} name="password" label="Contraseña" type="password" onChange={onChange}/>
                 <button>Iniciar sesión</button>
             </form>
         </CenteredBox>

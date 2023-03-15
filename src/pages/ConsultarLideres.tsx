@@ -22,7 +22,7 @@ const ConsultarLideres = () => {
     return (
         <div className="my-4 flex flex-col space-y-4 items-center">
             <h1>Lideres registrados</h1>
-            <button>Registrar lider</button>
+            <button onClick={()=>{navigate('crear')}}>Registrar lider</button>
             {lideres.length === 0 &&
                 <span>No hay lideres!</span>
             }

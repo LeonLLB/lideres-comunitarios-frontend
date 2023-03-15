@@ -4,15 +4,16 @@ interface FormInputProps {
     name: string,
     onChange: (e: ChangeEvent<HTMLInputElement>)=>void,
     label:string
+    value: string
     type: HTMLInputTypeAttribute
     rest?: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 }
 
-const FormInput: FC<FormInputProps> = ({name,label,onChange,type,...rest}) => {
+const FormInput: FC<FormInputProps> = ({name,label,onChange,type,value,rest}) => {
   return (
     <div className="flex flex-col space-y-2">
         <label className="text-sm font-light" htmlFor={name}>{label}</label>
-        <input {...rest} className="text-sm font-light border border-gray-700 p-1 rounded-sm outline-none" type={type} id={name} name={name} onChange={onChange} />
+        <input {...rest} value={value} className="text-sm font-light border border-gray-700 p-1 rounded-sm outline-none" type={type} id={name} name={name} onChange={onChange} />
     </div>
   )
 }
