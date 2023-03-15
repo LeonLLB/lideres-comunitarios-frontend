@@ -9,22 +9,20 @@ const ConsultarLideres = () => {
     const navigate = useNavigate()
 
     const [lideres, setLideres] = useState<Lider[]>([])
-    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
       getLideres()
     },[])
 
     const getLideres = async () => {
-        setIsLoading(true)
         const lideres = await liderController.getAll()
-        setIsLoading(false)
         setLideres(lideres)
     }    
 
     return (
-        <div className="mt-10 flex flex-col space-y-4 items-center">
+        <div className="my-4 flex flex-col space-y-4 items-center">
             <h1>Lideres registrados</h1>
+            <button>Registrar lider</button>
             {lideres.length === 0 &&
                 <span>No hay lideres!</span>
             }

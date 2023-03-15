@@ -1,12 +1,6 @@
-export interface Lider{
-    id: number
-    nombre: string
-    apellido: string
-    cedula: number
-    apodo: string
-    telefono: string
-    email: string
-    parroquia: string
-    comunidad: string
-    seguidores: never // TODO: SEGUIDORES ES UN ARREGLO DE SEGUIDORES, PUEDE SER NULO
+import { Persona } from "./persona";
+import { Seguidor } from "./seguidor";
+
+export interface Lider extends Persona{
+    seguidores: Seguidor[] | null
 }

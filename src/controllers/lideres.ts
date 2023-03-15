@@ -18,7 +18,17 @@ class LiderController{
 
     async getRawOne(){}
 
-    async getOneWithSeguidores(){}
+    async getOneWithSeguidores(id: number){
+        const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/'+id,{
+            credentials:'include'
+        })
+
+        if (res.status !== 202) return 
+
+        const {data}: {data:Lider} = await res.json()
+
+        return data
+    }
 
     async update(){}
 
