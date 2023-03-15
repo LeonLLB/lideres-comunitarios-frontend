@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind utilities;
 @tailwind variants;
+
+th,td{
+    @apply border border-gray-500 p-4;
+}
+
+h1{
+    @apply font-light text-xl;
+}
+
+button{
+    @apply p-1 text-sm border border-gray-500 rounded-sm
+}

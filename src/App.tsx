@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route,Routes, useNavigate} from 'react-router-d
 import AuthRoute from './components/AuthRoute'
 import { AuthContext, AuthContextState } from './context/auth'
 import { authController } from './controllers/auth'
+import ConsultarLider from './pages/ConsultarLider'
 import ConsultarLideres from './pages/ConsultarLideres'
 import Login from './pages/Login'
 import './tw.css'
@@ -28,6 +29,7 @@ const AuthRoutes = () => {
     <Routes>
       <Route  path='/' element={ <AuthRoute element={<Login/>}/> }/>
       <Route path='/lideres' element={ <AuthRoute requiredAuth element={<ConsultarLideres/>}/>}/>
+      <Route path='/lideres/:id' element={ <AuthRoute requiredAuth element={<ConsultarLider/>}/>}/>
     </Routes>
   )
 
