@@ -1,4 +1,5 @@
 import { Lider } from "../interfaces/lideres"
+import { Persona, PersonaCore } from "../interfaces/persona"
 
 
 class LiderController{
@@ -16,9 +17,7 @@ class LiderController{
 
     }
 
-    async getRawOne(){}
-
-    async getOneWithSeguidores(id: number){
+    async getOne(id: number){
         const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/'+id,{
             credentials:'include'
         })
@@ -34,7 +33,18 @@ class LiderController{
 
     async delete(){}
 
-    async register(){}
+    async register(dto: PersonaCore){
+        const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/',{
+            method:'POST',
+            credentials:'include',
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(dto)
+        })
+
+        return res.json()
+    }
 
 }
 

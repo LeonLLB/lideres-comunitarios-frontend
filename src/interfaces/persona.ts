@@ -1,5 +1,5 @@
-export interface Persona {
-    id: number
+
+export interface PersonaCore{
     nombre: string
     apellido: string
     cedula: number
@@ -8,4 +8,8 @@ export interface Persona {
     email: string
     parroquia: string
     comunidad: string
+}
+
+export interface Persona extends PersonaCore {
+    id: number
 }

@@ -19,7 +19,7 @@ const ConsultarLider = () => {
       return
     }
 
-    const lider = await liderController.getOneWithSeguidores(+id)
+    const lider = await liderController.getOne(+id)
     if (!lider) {
       navigate('/lideres')
       return

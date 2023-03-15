@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import FormInput from "../components/FormInput"
 import SeguidorLiderForm from "../components/SeguidorLiderForm"
+import { liderController } from "../controllers/lideres"
 
 
 const CreateLider = () => {
@@ -28,7 +29,14 @@ const CreateLider = () => {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault()
-    console.log(form)
+    liderController.register({...form,cedula:+form.cedula})
+    .then(response=>{
+      if(response.error){
+        //TODO: MANEJO DE ERROR
+        return
+      }
+      navigate('/lideres')
+    })
   }
 
   return (
