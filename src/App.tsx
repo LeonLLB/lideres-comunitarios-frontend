@@ -8,6 +8,8 @@ import ConsultarLideres from './pages/ConsultarLideres'
 import CreateLider from './pages/CreateLider'
 import CreateSeguidor from './pages/CreateSeguidor'
 import Login from './pages/Login'
+import UpdateLider from './pages/UpdateLider'
+import UpdateSeguidor from './pages/UpdateSeguidor'
 import './tw.css'
 
 const AuthRoutes = () => {
@@ -33,7 +35,9 @@ const AuthRoutes = () => {
       <Route path='/lideres' element={ <AuthRoute requiredAuth element={<ConsultarLideres/>}/>}/>
       <Route path='/lideres/crear' element={ <AuthRoute requiredAuth element={<CreateLider/>}/>}/>
       <Route path='/lideres/:id' element={ <AuthRoute requiredAuth element={<ConsultarLider/>}/>}/>
+      <Route path='/lideres/:id/actualizar' element={ <AuthRoute requiredAuth element={<UpdateLider/>}/>}/>
       <Route path='/lideres/:id/seguidor/crear' element={ <AuthRoute requiredAuth element={<CreateSeguidor/>}/>}/>
+      <Route path='/lideres/:id/seguidor/actualizar/:seguidorId' element={ <AuthRoute requiredAuth element={<UpdateSeguidor/>}/>}/>
     </Routes>
   )
 

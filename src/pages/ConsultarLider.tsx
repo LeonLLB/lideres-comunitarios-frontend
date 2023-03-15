@@ -44,7 +44,7 @@ const ConsultarLider = () => {
               <span>Parroquia: {lider.parroquia}</span>
               <span>Comunidad: {lider.comunidad}</span>
             </div>
-            <button>Actualizar</button>
+            <button onClick={()=>navigate('actualizar')}>Actualizar</button>
             <button>Eliminar</button>
           </div>
           <h2>Seguidores del lider</h2>
@@ -66,7 +66,7 @@ const ConsultarLider = () => {
                   <span>Comunidad: {seguidor.comunidad}</span>
                 </div>
                 <hr className="col-span-2 border-black" />
-                <button>Actualizar</button>
+                <button onClick={()=>navigate('seguidor/actualizar/'+seguidor.id)}>Actualizar</button>
                 <button>Eliminar</button>
               </div>
             ))

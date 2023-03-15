@@ -29,7 +29,18 @@ class LiderController{
         return data
     }
 
-    async update(){}
+    async update(dto: PersonaCore, id: number){
+        const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/'+id,{
+            method:'PUT',
+            credentials:'include',
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(dto)
+        })
+
+        return res.json()
+    }
 
     async delete(){}
 

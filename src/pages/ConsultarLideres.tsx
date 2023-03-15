@@ -40,7 +40,7 @@ const ConsultarLideres = () => {
                             <span>Comunidad: {lider.comunidad}</span>
                         </div>
                         <hr className="col-span-2 border-black" />
-                        <button>Actualizar</button>
+                        <button onClick={()=>navigate(lider.id+'/actualizar')}>Actualizar</button>
                         <button>Eliminar</button>
                     </div>
                 ))
