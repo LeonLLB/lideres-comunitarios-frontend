@@ -1,6 +1,7 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import SeguidorLiderForm from '../components/SeguidorLiderForm'
+import { AuthContext } from '../context/auth'
 import { seguidorController } from '../controllers/seguidor'
 
 const CreateSeguidor = () => {
@@ -8,6 +9,8 @@ const CreateSeguidor = () => {
   const navigate = useNavigate()
 
   const {id} = useParams()
+  
+  const authState = useContext(AuthContext)
 
   const [form,setForm] = useState({
     nombre:'',
@@ -40,6 +43,13 @@ const CreateSeguidor = () => {
         return
       }
       navigate('/lideres/'+id)
+    })
+    .catch(()=>{
+      authState.setState({
+        didInitialValidation:true,
+        isValidationOk:false
+      })    
+      navigate('/')
     })
   }
 

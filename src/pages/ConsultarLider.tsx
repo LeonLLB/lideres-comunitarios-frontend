@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import { AuthContext } from "../context/auth"
 import { liderController } from "../controllers/lideres"
 import { Lider } from "../interfaces/lideres"
 
 const ConsultarLider = () => {
 
   const [lider, setLider] = useState<Lider>()
-  const navigate = useNavigate()
+  const navigate = useNavigate()  
+  const authState = useContext(AuthContext)
   const { id } = useParams()
 
   useEffect(() => {
@@ -19,13 +21,23 @@ const ConsultarLider = () => {
       return
     }
 
-    const lider = await liderController.getOne(+id)
-    if (!lider) {
-      navigate('/lideres')
-      return
+    try {
+      const lider = await liderController.getOne(+id)
+      if (!lider) {
+        navigate('/lideres')
+        return
+      }
+  
+      setLider(lider)      
+    } catch (error: any) {      
+        authState.setState({
+          didInitialValidation:true,
+          isValidationOk:false
+        })    
+        navigate('/')
+        return
     }
 
-    setLider(lider)
   }
 
   return (

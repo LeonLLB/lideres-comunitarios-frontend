@@ -4,14 +4,22 @@ import { Persona, PersonaCore } from "../interfaces/persona"
 
 class LiderController{
 
+    private tokenRegExp = new RegExp('oken')
+
     async getAll(){
         const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/',{
             credentials:'include'
         })
 
-        if (res.status !== 202) return []
+        const resData = await res.json()
 
-        const {data}: {data:Lider[]} = await res.json()
+        if(this.tokenRegExp.test(resData.error)){
+            throw new Error()
+        }
+
+        if(resData.error) return []
+
+        const {data}: {data:Lider[]} = resData
 
         return data
 
@@ -22,11 +30,16 @@ class LiderController{
             credentials:'include'
         })
 
-        if (res.status !== 202) return 
+        const resData = await res.json()
 
-        const {data}: {data:Lider} = await res.json()
+        if(this.tokenRegExp.test(resData.error)){
+            throw new Error()
+        }
+
+        const {data}: {data:Lider} = resData
 
         return data
+
     }
 
     async update(dto: PersonaCore, id: number){
@@ -39,7 +52,13 @@ class LiderController{
             body:JSON.stringify(dto)
         })
 
-        return res.json()
+        const resData = await res.json()
+
+        if(this.tokenRegExp.test(resData.error)){
+            throw new Error()
+        }
+
+        return resData
     }
 
     async delete(){}
@@ -54,7 +73,13 @@ class LiderController{
             body:JSON.stringify(dto)
         })
 
-        return res.json()
+        const resData = await res.json()
+
+        if(this.tokenRegExp.test(resData.error)){
+            throw new Error()
+        }
+
+        return resData
     }
 
 }

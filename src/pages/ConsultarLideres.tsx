@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { AuthContext } from "../context/auth"
 import { liderController } from "../controllers/lideres"
 import { Lider } from "../interfaces/lideres"
 
@@ -7,6 +8,8 @@ import { Lider } from "../interfaces/lideres"
 const ConsultarLideres = () => {
 
     const navigate = useNavigate()
+    
+  const authState = useContext(AuthContext)
 
     const [lideres, setLideres] = useState<Lider[]>([])
 
@@ -15,8 +18,17 @@ const ConsultarLideres = () => {
     },[])
 
     const getLideres = async () => {
-        const lideres = await liderController.getAll()
-        setLideres(lideres)
+        try {
+            const lideres = await liderController.getAll()
+            setLideres(lideres)            
+        } catch (error) {
+            authState.setState({
+                didInitialValidation:true,
+                isValidationOk:false
+              })    
+              navigate('/')
+              return
+        }
     }    
 
     return (

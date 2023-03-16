@@ -5,15 +5,21 @@ import { Seguidor, SeguidorDto } from "../interfaces/seguidor"
 
 class SeguidorController{
 
+    private tokenRegExp = new RegExp('oken')
+
     async getOne(id: number){
 
         const res = await fetch(import.meta.env.VITE_API_URL+'/seguidores/'+id,{
             credentials:'include'
         })
 
-        if (res.status !== 202) return 
+        const resData = await res.json()
 
-        const {data}: {data:Seguidor} = await res.json()
+        if(this.tokenRegExp.test(resData.error)){
+            throw new Error()
+        }
+
+        const {data}: {data:Seguidor} = resData
 
         return data
     }
@@ -28,7 +34,13 @@ class SeguidorController{
             body:JSON.stringify(dto)
         })
 
-        return res.json()
+        const resData = await res.json()
+
+        if(this.tokenRegExp.test(resData.error)){
+            throw new Error()
+        }
+
+        return resData
     }
 
     async delete(){}
@@ -43,7 +55,13 @@ class SeguidorController{
             body:JSON.stringify(dto)
         })
 
-        return res.json()
+        const resData = await res.json()
+
+        if(this.tokenRegExp.test(resData.error)){
+            throw new Error()
+        }
+
+        return resData
     }
 
 }

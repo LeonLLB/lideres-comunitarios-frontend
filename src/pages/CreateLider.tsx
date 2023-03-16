@@ -1,13 +1,16 @@
-import { ChangeEvent, FormEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import FormInput from "../components/FormInput"
 import SeguidorLiderForm from "../components/SeguidorLiderForm"
+import { AuthContext } from "../context/auth"
 import { liderController } from "../controllers/lideres"
 
 
 const CreateLider = () => {
 
   const navigate = useNavigate()
+  
+  const authState = useContext(AuthContext)
 
   const [form,setForm] = useState({
     nombre:'',
@@ -36,6 +39,13 @@ const CreateLider = () => {
         return
       }
       navigate('/lideres')
+    })
+    .catch(err=>{
+      authState.setState({
+        didInitialValidation:true,
+        isValidationOk:false
+      })    
+      navigate('/')
     })
   }
 

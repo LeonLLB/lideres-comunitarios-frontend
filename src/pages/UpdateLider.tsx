@@ -1,12 +1,14 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import SeguidorLiderForm from "../components/SeguidorLiderForm"
+import { AuthContext } from "../context/auth"
 import { liderController } from "../controllers/lideres"
 
 const UpdateLider = () => {
 
   const navigate = useNavigate()
   const {id} = useParams()
+  const authState = useContext(AuthContext)
 
   const [form,setForm] = useState({
     nombre:'',
@@ -41,6 +43,13 @@ const UpdateLider = () => {
         return
       }
       navigate('/lideres/'+id)
+    })
+    .catch(()=>{
+      authState.setState({
+        didInitialValidation:true,
+        isValidationOk:false
+      })    
+      navigate('/')
     })
   }
 
