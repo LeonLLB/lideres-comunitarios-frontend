@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../context/auth"
+import { authController } from "../controllers/auth"
 import { liderController } from "../controllers/lideres"
 import { Lider } from "../interfaces/lideres"
 
@@ -29,12 +30,25 @@ const ConsultarLideres = () => {
               navigate('/')
               return
         }
-    }    
+    } 
+    
+    const logOut = async () => {
+        await authController.logout()
+        authState.setState({
+            didInitialValidation:true,
+            isValidationOk:false
+          })    
+          navigate('/')
+          return
+    }
 
     return (
         <div className="my-4 flex flex-col space-y-4 items-center">
             <h1>Lideres registrados</h1>
-            <button onClick={()=>{navigate('crear')}}>Registrar lider</button>
+            <div className="flex flex-row space-x-4">
+                <button onClick={()=>{navigate('crear')}}>Registrar lider</button>
+                <button onClick={logOut}>Cerrar sesión</button>
+            </div>
             {lideres.length === 0 &&
                 <span>No hay lideres!</span>
             }
