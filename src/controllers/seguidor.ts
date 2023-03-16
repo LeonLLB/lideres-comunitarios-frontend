@@ -1,6 +1,7 @@
 import { Lider } from "../interfaces/lideres"
 import { Persona, PersonaCore } from "../interfaces/persona"
 import { Seguidor, SeguidorDto } from "../interfaces/seguidor"
+import { confirmAdapter } from "./notiflix"
 
 
 class SeguidorController{
@@ -43,7 +44,28 @@ class SeguidorController{
         return resData
     }
 
-    async delete(){}
+    async delete(id: number){
+        const didConfirm = await confirmAdapter.Warning({
+            title:"Eliminar seguidor",
+            message:"¿Estas seguro que deseas eliminar a este seguidor?",
+            okText:"Eliminar",
+        })
+
+        if(!didConfirm) return false
+
+        const res = await fetch(import.meta.env.VITE_API_URL+'/seguidores/'+id,{
+            method:'DELETE',
+            credentials:'include',
+        })
+
+        const resData = await res.json()
+
+        if(this.tokenRegExp.test(resData.error)){
+            throw new Error()
+        }
+
+        return resData.success as boolean
+    }
 
     async register(dto: SeguidorDto){
         const res = await fetch(import.meta.env.VITE_API_URL+'/seguidores/',{

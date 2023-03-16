@@ -1,5 +1,6 @@
 import { Lider } from "../interfaces/lideres"
 import { Persona, PersonaCore } from "../interfaces/persona"
+import { confirmAdapter } from "./notiflix"
 
 
 class LiderController{
@@ -61,7 +62,29 @@ class LiderController{
         return resData
     }
 
-    async delete(){}
+    async delete(id: number){
+        
+        const didConfirm = await confirmAdapter.Warning({
+            title:"Eliminar lider",
+            message:"¿Estas seguro que deseas eliminar a este lider?, tambien se eliminarán a sus seguidores",
+            okText:"Eliminar",
+        })
+
+        if(!didConfirm) return false
+
+        const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/'+id,{
+            method:'DELETE',
+            credentials:'include',
+        })
+
+        const resData = await res.json()
+
+        if(this.tokenRegExp.test(resData.error)){
+            throw new Error()
+        }
+
+        return resData.success as boolean
+    }
 
     async register(dto: PersonaCore){
         const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/',{

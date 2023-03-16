@@ -18,28 +18,37 @@ const ConsultarLideres = () => {
       getLideres()
     },[])
 
+    const handleAuth = () => {
+        authState.setState({
+          didInitialValidation:true,
+          isValidationOk:false
+        })    
+        navigate('/')
+    }
+
     const getLideres = async () => {
         try {
             const lideres = await liderController.getAll()
             setLideres(lideres)            
         } catch (error) {
-            authState.setState({
-                didInitialValidation:true,
-                isValidationOk:false
-              })    
-              navigate('/')
-              return
+            handleAuth()
         }
     } 
     
     const logOut = async () => {
         await authController.logout()
-        authState.setState({
-            didInitialValidation:true,
-            isValidationOk:false
-          })    
-          navigate('/')
-          return
+        handleAuth()
+    }
+
+    const deleteLider = async (id: number) => {
+        try {
+            const didDelete = await liderController.delete(id)
+            if(didDelete){
+                getLideres()
+            }
+        } catch (error) {
+            handleAuth()
+        }
     }
 
     return (
@@ -67,7 +76,7 @@ const ConsultarLideres = () => {
                         </div>
                         <hr className="col-span-2 border-black" />
                         <button onClick={()=>navigate(lider.id+'/actualizar')}>Actualizar</button>
-                        <button>Eliminar</button>
+                        <button onClick={()=>deleteLider(lider.id)}>Eliminar</button>
                     </div>
                 ))
             } 

@@ -2,18 +2,27 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { AuthContext } from "../context/auth"
 import { liderController } from "../controllers/lideres"
+import { seguidorController } from "../controllers/seguidor"
 import { Lider } from "../interfaces/lideres"
 
 const ConsultarLider = () => {
 
   const [lider, setLider] = useState<Lider>()
-  const navigate = useNavigate()  
+  const navigate = useNavigate()
   const authState = useContext(AuthContext)
   const { id } = useParams()
 
   useEffect(() => {
     getLider()
   }, [])
+
+  const handleAuth = () => {
+    authState.setState({
+      didInitialValidation: true,
+      isValidationOk: false
+    })
+    navigate('/')
+  }
 
   const getLider = async () => {
     if (!id || isNaN(+id)) {
@@ -27,17 +36,38 @@ const ConsultarLider = () => {
         navigate('/lideres')
         return
       }
-  
-      setLider(lider)      
-    } catch (error: any) {      
-        authState.setState({
-          didInitialValidation:true,
-          isValidationOk:false
-        })    
-        navigate('/')
-        return
+
+      setLider(lider)
+    } catch (error: any) {
+      handleAuth()
     }
 
+  }
+
+  const deleteLider = async () => {
+    if (!id || isNaN(+id)) {
+      navigate('/lideres')
+      return
+    }
+    try {
+      const didDelete = await liderController.delete(+id)
+      if (didDelete) {
+        navigate('/lideres')
+      }
+    } catch (error) {
+      handleAuth()
+    }
+  }
+
+  const deleteSeguidor = async (seguidorId: number) => {
+    try {
+      const didDelete = await seguidorController.delete(+seguidorId)
+      if (didDelete) {
+        getLider()
+      }
+    } catch (error) {
+      handleAuth()
+    }
   }
 
   return (
@@ -56,12 +86,12 @@ const ConsultarLider = () => {
               <span>Parroquia: {lider.parroquia}</span>
               <span>Comunidad: {lider.comunidad}</span>
             </div>
-            <button onClick={()=>navigate('actualizar')}>Actualizar</button>
-            <button>Eliminar</button>
+            <button onClick={() => navigate('actualizar')}>Actualizar</button>
+            <button onClick={deleteLider}>Eliminar</button>
           </div>
           <h2>Seguidores del lider</h2>
-          <button onClick={()=>navigate('seguidor/crear')}>Registrar seguidor</button>
-          { !lider.seguidores || lider.seguidores.length === 0 &&
+          <button onClick={() => navigate('seguidor/crear')}>Registrar seguidor</button>
+          {!lider.seguidores || lider.seguidores.length === 0 &&
             <span>El lider no tiene ningun seguidor</span>
           }
           {lider.seguidores && lider.seguidores.length > 0 &&
@@ -78,8 +108,8 @@ const ConsultarLider = () => {
                   <span>Comunidad: {seguidor.comunidad}</span>
                 </div>
                 <hr className="col-span-2 border-black" />
-                <button onClick={()=>navigate('seguidor/actualizar/'+seguidor.id)}>Actualizar</button>
-                <button>Eliminar</button>
+                <button onClick={() => navigate('seguidor/actualizar/' + seguidor.id)}>Actualizar</button>
+                <button onClick={()=>deleteSeguidor(seguidor.id)}>Eliminar</button>
               </div>
             ))
           }
