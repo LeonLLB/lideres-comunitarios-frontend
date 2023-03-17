@@ -21,7 +21,8 @@ const ConsultarLideres = () => {
     const handleAuth = () => {
         authState.setState({
           didInitialValidation:true,
-          isValidationOk:false
+          isValidationOk:false,
+          isAdmin:false
         })    
         navigate('/')
     }
@@ -55,8 +56,10 @@ const ConsultarLideres = () => {
         <div className="my-4 flex flex-col space-y-4 items-center">
             <h1>Lideres registrados</h1>
             <div className="flex flex-row space-x-4">
+            { authState.state.isAdmin &&
                 <button onClick={()=>{navigate('crear')}}>Registrar lider</button>
-                <button onClick={logOut}>Cerrar sesión</button>
+            }
+            <button onClick={logOut}>Cerrar sesión</button>
             </div>
             {lideres.length === 0 &&
                 <span>No hay lideres!</span>
@@ -74,9 +77,13 @@ const ConsultarLideres = () => {
                             <span>Parroquia: {lider.parroquia}</span>
                             <span>Comunidad: {lider.comunidad}</span>
                         </div>
-                        <hr className="col-span-2 border-black" />
-                        <button onClick={()=>navigate(lider.id+'/actualizar')}>Actualizar</button>
-                        <button onClick={()=>deleteLider(lider.id)}>Eliminar</button>
+                        {   authState.state.isAdmin &&
+                            <>
+                                <hr className="col-span-2 border-black" />
+                                <button onClick={()=>navigate(lider.id+'/actualizar')}>Actualizar</button>
+                                <button onClick={()=>deleteLider(lider.id)}>Eliminar</button>
+                            </>
+                        }
                     </div>
                 ))
             } 

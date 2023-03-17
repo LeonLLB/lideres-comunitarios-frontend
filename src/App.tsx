@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import {BrowserRouter as Router, Route,Routes, useNavigate} from 'react-router-dom'
+import {HashRouter as Router, Route,Routes, useNavigate} from 'react-router-dom'
 import AuthRoute from './components/AuthRoute'
 import { AuthContext, AuthContextState } from './context/auth'
 import { authController } from './controllers/auth'
@@ -19,10 +19,11 @@ const AuthRoutes = () => {
 
   useEffect(() => {
     if (authState.state.didInitialValidation) return
-    authController.manualValidate().then(isOk=>{
+    authController.manualValidate().then(({isOk,rol})=>{
         authState.setState({
           didInitialValidation:true,
-          isValidationOk:isOk
+          isValidationOk:isOk,
+          isAdmin:rol==="A"
         })
         if(isOk){navigate('/lideres')}
         else {navigate('/')}
@@ -45,7 +46,7 @@ const AuthRoutes = () => {
 
 function App() {
   
-  const AuthState = useState<AuthContextState>({didInitialValidation:false,isValidationOk:false})
+  const AuthState = useState<AuthContextState>({didInitialValidation:false,isValidationOk:false,isAdmin:false})
 
 
   return (

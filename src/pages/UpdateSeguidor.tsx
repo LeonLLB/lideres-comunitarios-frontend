@@ -50,7 +50,8 @@ const UpdateSeguidor = () => {
       .catch(()=>{
         authState.setState({
           didInitialValidation:true,
-          isValidationOk:false
+          isValidationOk:false,
+          isAdmin:false
         })    
         navigate('/')
       })

@@ -12,7 +12,13 @@ class AuthController {
             body: JSON.stringify(dto)
         })
         
-        return res.status === 202
+        const isOk = res.status === 202
+        
+        if(!isOk) return {isOk,rol:null}
+
+        const {rol}:{rol:string} = await res.json()
+
+        return {isOk,rol}
     }
 
     async manualValidate(){
@@ -20,8 +26,14 @@ class AuthController {
             credentials:'include',
             method:'POST',
         })
+
+        const isOk = res.status === 200
         
-        return res.status === 200
+        if(!isOk) return {isOk,rol:null}
+
+        const {rol}:{rol:string} = await res.json()
+
+        return {isOk,rol}
     }
 
     async logout(){

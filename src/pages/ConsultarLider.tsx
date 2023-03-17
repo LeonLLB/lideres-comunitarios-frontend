@@ -19,7 +19,8 @@ const ConsultarLider = () => {
   const handleAuth = () => {
     authState.setState({
       didInitialValidation: true,
-      isValidationOk: false
+      isValidationOk: false,
+      isAdmin:false
     })
     navigate('/')
   }
@@ -86,11 +87,17 @@ const ConsultarLider = () => {
               <span>Parroquia: {lider.parroquia}</span>
               <span>Comunidad: {lider.comunidad}</span>
             </div>
-            <button onClick={() => navigate('actualizar')}>Actualizar</button>
-            <button onClick={deleteLider}>Eliminar</button>
+            { authState.state.isAdmin &&
+              <>
+                <button onClick={() => navigate('actualizar')}>Actualizar</button>
+                <button onClick={deleteLider}>Eliminar</button>
+              </>
+            }
           </div>
           <h2>Seguidores del lider</h2>
-          <button onClick={() => navigate('seguidor/crear')}>Registrar seguidor</button>
+          { authState.state.isAdmin &&
+            <button onClick={() => navigate('seguidor/crear')}>Registrar seguidor</button>
+          }
           {!lider.seguidores || lider.seguidores.length === 0 &&
             <span>El lider no tiene ningun seguidor</span>
           }
@@ -107,9 +114,13 @@ const ConsultarLider = () => {
                   <span>Parroquia: {seguidor.parroquia}</span>
                   <span>Comunidad: {seguidor.comunidad}</span>
                 </div>
-                <hr className="col-span-2 border-black" />
-                <button onClick={() => navigate('seguidor/actualizar/' + seguidor.id)}>Actualizar</button>
-                <button onClick={()=>deleteSeguidor(seguidor.id)}>Eliminar</button>
+                { authState.state.isAdmin &&
+                  <>
+                    <hr className="col-span-2 border-black" />
+                    <button onClick={() => navigate('seguidor/actualizar/' + seguidor.id)}>Actualizar</button>
+                    <button onClick={()=>deleteSeguidor(seguidor.id)}>Eliminar</button>
+                  </>
+                }
               </div>
             ))
           }

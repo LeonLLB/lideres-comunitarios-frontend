@@ -43,7 +43,8 @@ const CreateLider = () => {
     .catch(err=>{
       authState.setState({
         didInitialValidation:true,
-        isValidationOk:false
+        isValidationOk:false,
+        isAdmin:false
       })    
       navigate('/')
     })

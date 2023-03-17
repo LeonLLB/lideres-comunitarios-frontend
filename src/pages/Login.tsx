@@ -25,10 +25,11 @@ const Login = () => {
     const onSubmit = (e: FormEvent) =>{
         e.preventDefault()
         authController.login({cedula:+form.cedula,password:form.password})
-        .then((isOk)=>{
+        .then(({isOk,rol})=>{
             authState.setState({
                 didInitialValidation:true,
-                isValidationOk:isOk
+                isValidationOk:isOk,
+                isAdmin:rol==='A'
             })
             if(isOk){
                 navigate('/lideres')
