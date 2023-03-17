@@ -1,4 +1,5 @@
 import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
 interface ConfirmProps{
     title:string,
@@ -34,10 +35,23 @@ class NConfirm{
 
 class NLoading {
 
+  display(message:string){
+    Loading.circle(message,{
+      svgColor:"#d1040e",
+      messageColor:"#d1040e"
+    })
+  }
+
+  hide(){
+    Loading.remove()
+  }
+
 }
 
 const confirmAdapter =  new NConfirm()
+const loadingAdapter = new NLoading()
 
 export {
-    confirmAdapter
+    confirmAdapter,
+    loadingAdapter
 }

@@ -1,7 +1,7 @@
 import { Lider } from "../interfaces/lideres"
 import { Persona, PersonaCore } from "../interfaces/persona"
 import { Seguidor, SeguidorDto } from "../interfaces/seguidor"
-import { confirmAdapter } from "./notiflix"
+import { confirmAdapter, loadingAdapter } from "./notiflix"
 
 
 class SeguidorController{
@@ -10,11 +10,15 @@ class SeguidorController{
 
     async getOne(id: number){
 
+        loadingAdapter.display('Consultando seguidor')
+
         const res = await fetch(import.meta.env.VITE_API_URL+'/seguidores/'+id,{
             credentials:'include'
         })
 
         const resData = await res.json()
+
+        loadingAdapter.hide()
 
         if(this.tokenRegExp.test(resData.error)){
             throw new Error()
@@ -26,6 +30,7 @@ class SeguidorController{
     }
 
     async update(dto: SeguidorDto,id: number){
+        loadingAdapter.display('Actualizando seguidor')
         const res = await fetch(import.meta.env.VITE_API_URL+'/seguidores/'+id,{
             method:'PUT',
             credentials:'include',
@@ -34,6 +39,7 @@ class SeguidorController{
             },
             body:JSON.stringify(dto)
         })
+        loadingAdapter.hide()
 
         const resData = await res.json()
 
@@ -52,13 +58,14 @@ class SeguidorController{
         })
 
         if(!didConfirm) return false
-
+        loadingAdapter.display('Eliminando seguidor')
         const res = await fetch(import.meta.env.VITE_API_URL+'/seguidores/'+id,{
             method:'DELETE',
             credentials:'include',
         })
 
         const resData = await res.json()
+        loadingAdapter.hide()
 
         if(this.tokenRegExp.test(resData.error)){
             throw new Error()
@@ -68,6 +75,7 @@ class SeguidorController{
     }
 
     async register(dto: SeguidorDto){
+        loadingAdapter.display('Registrando lider')
         const res = await fetch(import.meta.env.VITE_API_URL+'/seguidores/',{
             method:'POST',
             credentials:'include',
@@ -78,6 +86,8 @@ class SeguidorController{
         })
 
         const resData = await res.json()
+
+        loadingAdapter.hide()
 
         if(this.tokenRegExp.test(resData.error)){
             throw new Error()

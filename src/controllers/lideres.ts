@@ -1,6 +1,6 @@
 import { Lider } from "../interfaces/lideres"
 import { Persona, PersonaCore } from "../interfaces/persona"
-import { confirmAdapter } from "./notiflix"
+import { confirmAdapter, loadingAdapter } from "./notiflix"
 
 
 class LiderController{
@@ -8,11 +8,13 @@ class LiderController{
     private tokenRegExp = new RegExp('oken')
 
     async getAll(){
+        loadingAdapter.display('Obteniendo lideres')
         const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/',{
             credentials:'include'
         })
-
+        
         const resData = await res.json()
+        loadingAdapter.hide()
 
         if(this.tokenRegExp.test(resData.error)){
             throw new Error()
@@ -27,12 +29,13 @@ class LiderController{
     }
 
     async getOne(id: number){
+        loadingAdapter.display('Obteniendo lider')
         const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/'+id,{
             credentials:'include'
         })
 
         const resData = await res.json()
-
+        loadingAdapter.hide()
         if(this.tokenRegExp.test(resData.error)){
             throw new Error()
         }
@@ -44,6 +47,7 @@ class LiderController{
     }
 
     async update(dto: PersonaCore, id: number){
+        loadingAdapter.display('Actualizando lider')
         const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/'+id,{
             method:'PUT',
             credentials:'include',
@@ -55,6 +59,8 @@ class LiderController{
 
         const resData = await res.json()
 
+        loadingAdapter.hide()
+        
         if(this.tokenRegExp.test(resData.error)){
             throw new Error()
         }
@@ -69,8 +75,9 @@ class LiderController{
             message:"¿Estas seguro que deseas eliminar a este lider?, tambien se eliminarán a sus seguidores",
             okText:"Eliminar",
         })
-
+        
         if(!didConfirm) return false
+        loadingAdapter.display('Eliminando lider')
 
         const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/'+id,{
             method:'DELETE',
@@ -78,6 +85,8 @@ class LiderController{
         })
 
         const resData = await res.json()
+
+        loadingAdapter.hide()
 
         if(this.tokenRegExp.test(resData.error)){
             throw new Error()
@@ -87,6 +96,9 @@ class LiderController{
     }
 
     async register(dto: PersonaCore){
+        
+        loadingAdapter.display('Registrando lider')
+
         const res = await fetch(import.meta.env.VITE_API_URL+'/lideres/',{
             method:'POST',
             credentials:'include',
@@ -97,6 +109,8 @@ class LiderController{
         })
 
         const resData = await res.json()
+
+        loadingAdapter.hide()
 
         if(this.tokenRegExp.test(resData.error)){
             throw new Error()
