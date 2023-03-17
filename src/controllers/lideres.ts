@@ -1,6 +1,6 @@
 import { Lider } from "../interfaces/lideres"
 import { Persona, PersonaCore } from "../interfaces/persona"
-import { confirmAdapter, loadingAdapter } from "./notiflix"
+import { confirmAdapter, loadingAdapter, notifyAdapter } from "./notiflix"
 
 
 class LiderController{

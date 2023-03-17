@@ -4,6 +4,7 @@ import FormInput from "../components/FormInput"
 import SeguidorLiderForm from "../components/SeguidorLiderForm"
 import { AuthContext } from "../context/auth"
 import { liderController } from "../controllers/lideres"
+import { notifyAdapter } from "../controllers/notiflix"
 
 
 const CreateLider = () => {
@@ -35,12 +36,14 @@ const CreateLider = () => {
     liderController.register({...form,cedula:+form.cedula})
     .then(response=>{
       if(response.error){
-        //TODO: MANEJO DE ERROR
+        notifyAdapter.error(response.error)
         return
       }
+      notifyAdapter.success('Lider creado con exito')
       navigate('/lideres')
     })
     .catch(err=>{
+      notifyAdapter.error('Su sesión ha expirado')
       authState.setState({
         didInitialValidation:true,
         isValidationOk:false,

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../context/auth"
 import { authController } from "../controllers/auth"
 import { liderController } from "../controllers/lideres"
+import { notifyAdapter } from "../controllers/notiflix"
 import { Lider } from "../interfaces/lideres"
 
 
@@ -18,7 +19,12 @@ const ConsultarLideres = () => {
       getLideres()
     },[])
 
-    const handleAuth = () => {
+    const handleAuth = (isError = true) => {
+        if(isError){
+            notifyAdapter.error('Su sesión ha expirado')
+        } else {
+            notifyAdapter.success('Su sesión ha sido cerrada')
+        }
         authState.setState({
           didInitialValidation:true,
           isValidationOk:false,
@@ -38,15 +44,18 @@ const ConsultarLideres = () => {
     
     const logOut = async () => {
         await authController.logout()
-        handleAuth()
+        handleAuth(false)
     }
 
     const deleteLider = async (id: number) => {
         try {
             const didDelete = await liderController.delete(id)
             if(didDelete){
+                notifyAdapter.success('El lider fue eliminado')
                 getLideres()
+                return
             }
+            notifyAdapter.error('El lider no ha sido eliminado')
         } catch (error) {
             handleAuth()
         }

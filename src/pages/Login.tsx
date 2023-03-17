@@ -4,6 +4,7 @@ import CenteredBox from "../components/CenteredBox"
 import FormInput from "../components/FormInput"
 import { AuthContext } from "../context/auth"
 import { authController } from "../controllers/auth"
+import { notifyAdapter } from "../controllers/notiflix"
 
 const Login = () => {
 
@@ -32,8 +33,11 @@ const Login = () => {
                 isAdmin:rol==='A'
             })
             if(isOk){
+                notifyAdapter.success('Sesión iniciada con exito')
                 navigate('/lideres')
+                return
             }
+            notifyAdapter.error('Usuario o clave invalida')
         })
     }
 

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { AuthContext } from "../context/auth"
 import { liderController } from "../controllers/lideres"
+import { notifyAdapter } from "../controllers/notiflix"
 import { seguidorController } from "../controllers/seguidor"
 import { Lider } from "../interfaces/lideres"
 
@@ -17,6 +18,7 @@ const ConsultarLider = () => {
   }, [])
 
   const handleAuth = () => {
+    notifyAdapter.error('Su sesión ha expirado')
     authState.setState({
       didInitialValidation: true,
       isValidationOk: false,
@@ -53,8 +55,11 @@ const ConsultarLider = () => {
     try {
       const didDelete = await liderController.delete(+id)
       if (didDelete) {
+        notifyAdapter.success('Lider eliminado con exito')
         navigate('/lideres')
+        return
       }
+      notifyAdapter.error('No se pudo eliminar al lider')
     } catch (error) {
       handleAuth()
     }
@@ -64,8 +69,11 @@ const ConsultarLider = () => {
     try {
       const didDelete = await seguidorController.delete(+seguidorId)
       if (didDelete) {
+        notifyAdapter.success('El seguidor fue eliminado con exito')
         getLider()
+        return
       }
+      notifyAdapter.error('No se pudo eliminar al seguidor')
     } catch (error) {
       handleAuth()
     }

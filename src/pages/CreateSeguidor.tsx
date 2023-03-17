@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import SeguidorLiderForm from '../components/SeguidorLiderForm'
 import { AuthContext } from '../context/auth'
+import { notifyAdapter } from '../controllers/notiflix'
 import { seguidorController } from '../controllers/seguidor'
 
 const CreateSeguidor = () => {
@@ -39,12 +40,14 @@ const CreateSeguidor = () => {
     seguidorController.register({...form,cedula:+form.cedula,liderId:+id})
     .then(response=>{
       if(response.error){
-        //TODO: MANEJO DE ERROR
+        notifyAdapter.error(response.error)
         return
       }
+      notifyAdapter.success('El seguidor fue creado con exito')
       navigate('/lideres/'+id)
     })
     .catch(()=>{
+      notifyAdapter.error('Su sesión ha expirado')
       authState.setState({
         didInitialValidation:true,
         isValidationOk:false,

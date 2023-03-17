@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import SeguidorLiderForm from '../components/SeguidorLiderForm'
 import { AuthContext } from '../context/auth'
 import { liderController } from '../controllers/lideres'
+import { notifyAdapter } from '../controllers/notiflix'
 import { seguidorController } from '../controllers/seguidor'
 
 const UpdateSeguidor = () => {
@@ -42,12 +43,14 @@ const UpdateSeguidor = () => {
       seguidorController.update({...form,cedula:+form.cedula,liderId:+id},+seguidorId)
       .then(response=>{
         if(response.error){
-          //TODO: MANEJO DE ERROR
+          notifyAdapter.error(response.error)
           return
         }
+        notifyAdapter.success('Seguidor actualizado con exito')
         navigate('/lideres/'+id)
       })
       .catch(()=>{
+        notifyAdapter.error('Su sesión ha expirado')
         authState.setState({
           didInitialValidation:true,
           isValidationOk:false,
