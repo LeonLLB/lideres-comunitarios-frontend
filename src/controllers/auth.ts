@@ -15,11 +15,11 @@ class AuthController {
         })
         
         const isOk = res.status === 202
+        loadingAdapter.hide()
         
         if(!isOk) return {isOk,rol:null}
         
         const {rol}:{rol:string} = await res.json()
-        loadingAdapter.hide()
         
         return {isOk,rol}
     }
